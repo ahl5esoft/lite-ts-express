@@ -2,6 +2,7 @@ export * from './api-port';
 export * from './cors-option';
 export * from './form-express-option';
 export * from './get-option';
+export * from './header';
 export * from './i-api-port';
 export * from './i-api-response';
 export * from './i-api-session';
