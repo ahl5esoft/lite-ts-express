@@ -1,11 +1,10 @@
-
 import { IDirectory } from 'lite-ts-fs';
 import Container from 'typedi';
 
 import { ApiFactoryBase } from './api-factory-base';
 import { ErrorCode } from './error-code';
 import { IApi } from './i-api';
-import { CustomError } from './post-option';
+import { CustomError } from './custom-error';
 
 const invalidAPIError = new CustomError(ErrorCode.api);
 const invalidAPI: IApi = {

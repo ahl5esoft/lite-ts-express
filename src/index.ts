@@ -1,6 +1,7 @@
 export * from './api-factory';
 export * from './api-port';
 export * from './cors-option';
+export * from './custom-error';
 export * from './form-express-option';
 export * from './get-option';
 export * from './i-api-port';

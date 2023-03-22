@@ -2,6 +2,7 @@ import { validate } from 'class-validator';
 import { Express, Request, Response } from 'express';
 import { opentracing } from 'jaeger-client';
 
+import { CustomError } from './custom-error';
 import { ErrorCode } from './error-code';
 import { Header } from './header';
 import { IApiResponse } from './i-api-response';
@@ -10,21 +11,6 @@ import { IApi } from './i-api';
 import { ICrypto } from './i-crypto';
 import { ILogFactory } from './i-log-factory';
 import { TracerStrategy } from './tracer-strategy';
-
-/**
- * 自定义错误
- */
-export class CustomError extends Error {
-    /**
-     * 构造函数
-     * 
-     * @param code 错误码
-     * @param data 错误数据
-     */
-    public constructor(public code: number, public data?: any) {
-        super('');
-    }
-}
 
 export function expressPostOption(
     authCrypto: ICrypto,
