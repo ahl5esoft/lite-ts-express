@@ -1,10 +1,10 @@
 import { notStrictEqual } from 'assert';
+import { IDirectory } from 'lite-ts-fs';
 import { Mock } from 'lite-ts-mock';
 
 import { createApiFactory } from './api-factory';
-import { IDirectory } from 'lite-ts-fs';
 
-describe('src/service/api/factory.ts', () => {
+describe('src/api-factory.ts', () => {
     describe('.build(endpoint: string, apiName: string)', () => {
         it('不存在', async () => {
             const mockDir = new Mock<IDirectory>();
