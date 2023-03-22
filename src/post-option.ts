@@ -14,7 +14,7 @@ import { TracerStrategy } from './tracer-strategy';
 /**
  * 自定义错误
  */
-class CustomError extends Error {
+export class CustomError extends Error {
     /**
      * 构造函数
      * 

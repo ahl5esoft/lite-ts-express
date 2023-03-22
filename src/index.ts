@@ -1,3 +1,4 @@
+export * from './api-factory';
 export * from './api-port';
 export * from './cors-option';
 export * from './form-express-option';
