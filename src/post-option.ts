@@ -1,26 +1,25 @@
 import { validate } from 'class-validator';
-import { Express, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { opentracing } from 'jaeger-client';
+import { CryptoBase } from 'lite-ts-crypto';
+import { CustomError, ErrorCode } from 'lite-ts-error';
+import { TracerStrategy } from 'lite-ts-jaeger-client';
+import { ApiResponse, Header } from 'lite-ts-rpc';
 
-import { CustomError } from './custom-error';
-import { ErrorCode } from './error-code';
-import { Header } from './header';
-import { IApiResponse } from './i-api-response';
-import { IApiSession } from './i-api-session';
 import { IApi } from './i-api';
-import { ICrypto } from './i-crypto';
+import { IApiSession } from './i-api-session';
 import { ILogFactory } from './i-log-factory';
-import { TracerStrategy } from './tracer-strategy';
+import { ExpressOption } from './option';
 
-export function expressPostOption(
-    authCrypto: ICrypto,
+export function postExpressOption(
+    authCrypto: CryptoBase,
     logFactory: ILogFactory,
     tracer: opentracing.Tracer,
     routeRule: string,
     getApiFunc: (req: Request) => Promise<IApi>,
     getAuthDataFunc: (req: Request, token: string) => Promise<any>,
-) {
-    return function (app: Express) {
+): ExpressOption {
+    return app => {
         app.post(routeRule, async (req: Request, resp: Response) => {
             const tracerSpan = tracer.startSpan(req.path, {
                 childOf: tracer.extract(opentracing.FORMAT_HTTP_HEADERS, req.headers),
@@ -31,7 +30,7 @@ export function expressPostOption(
             });
             const log = logFactory.build().addLabel('route', req.path);
 
-            let apiResp: IApiResponse = {
+            let apiResp: ApiResponse<any> = {
                 data: null,
                 err: 0,
             };

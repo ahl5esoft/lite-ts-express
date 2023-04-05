@@ -1,8 +1,9 @@
-import { Express } from 'express';
 import moment from 'moment';
 
-export function expressPortOption(project: string, port: number, version: string) {
-    return function (app: Express) {
+import { ExpressOption } from './option';
+
+export function portExpressOption(project: string, port: number, version: string): ExpressOption {
+    return app => {
         const args: any[] = [port, () => {
             console.log(`express >> ${project}(v${version})[${moment().format('YYYY-MM-DD HH:mm:ss')}]: ${port}`);
         }];

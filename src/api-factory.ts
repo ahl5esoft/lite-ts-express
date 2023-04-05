@@ -1,9 +1,8 @@
+import { CustomError, ErrorCode } from 'lite-ts-error';
 import { IDirectory } from 'lite-ts-fs';
 import Container from 'typedi';
 
 import { ApiFactoryBase } from './api-factory-base';
-import { CustomError } from './custom-error';
-import { ErrorCode } from './error-code';
 import { IApi } from './i-api';
 
 const invalidAPIError = new CustomError(ErrorCode.api);
@@ -13,19 +12,53 @@ const invalidAPI: IApi = {
     },
 };
 
-export class ApiFactory extends ApiFactoryBase {
+export class ExpressApiFactory extends ApiFactoryBase {
+    private m_ApiCtor: Promise<{
+        [endpoint: string]: {
+            [api: string]: Function;
+        };
+    }>;
+    protected get apiCtors() {
+        this.m_ApiCtor ??= new Promise<{
+            [endpoint: string]: {
+                [api: string]: Function;
+            };
+        }>(async (s, f) => {
+            try {
+                let apiCtors = {};
+                const dirs = await this.m_Dir.findDirectories();
+                for (const r of dirs) {
+                    const files = await r.findFiles();
+                    apiCtors[r.name] = files.reduce((memo: { [key: string]: Function; }, cr) => {
+                        if (cr.name.includes('_it') || cr.name.includes('_test') || cr.name.includes('.d.ts'))
+                            return memo;
+
+                        const api = require(cr.path);
+                        if (!api.default)
+                            throw new Error(`未导出default: ${cr.path}`);
+
+                        const name = cr.name.split('.')[0];
+                        memo[name] = api.default;
+                        return memo;
+                    }, {});
+                }
+                s(apiCtors);
+            } catch (ex) {
+                f(ex);
+            }
+        });
+        return this.m_ApiCtor;
+    }
+
     public constructor(
-        private m_APICtors: { [key: string]: { [key: string]: Function; }; }
+        private m_Dir: IDirectory,
     ) {
         super();
     }
 
-    public build(endpoint: string, apiName: string) {
-        const apiCtors = this.m_APICtors[endpoint];
-        if (!apiCtors)
-            return invalidAPI;
-
-        const apiCtor = apiCtors[apiName];
+    public async build(endpoint: string, apiName: string) {
+        const endpointApiCtor = await this.apiCtors;
+        const apiCtor = endpointApiCtor[endpoint]?.[apiName];
         if (!apiCtor)
             return invalidAPI;
 
@@ -33,25 +66,4 @@ export class ApiFactory extends ApiFactoryBase {
         Container.remove(apiCtor);
         return api;
     }
-}
-
-export async function createApiFactory(dir: IDirectory) {
-    let apiCtors = {};
-    const dirs = await dir.findDirectories();
-    for (const r of dirs) {
-        const files = await r.findFiles();
-        apiCtors[r.name] = files.reduce((memo: { [key: string]: Function; }, cr) => {
-            if (cr.name.includes('_it') || cr.name.includes('_test') || cr.name.includes('.d.ts'))
-                return memo;
-
-            const api = require(cr.path);
-            if (!api.default)
-                throw new Error(`未导出default: ${cr.path}`);
-
-            const name = cr.name.split('.')[0];
-            memo[name] = api.default;
-            return memo;
-        }, {});
-    }
-    return new ApiFactory(apiCtors);
 }

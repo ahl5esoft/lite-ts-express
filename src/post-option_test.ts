@@ -1,21 +1,21 @@
 import { strictEqual } from 'assert';
 import express from 'express';
 import { opentracing } from 'jaeger-client';
+import { CryptoBase } from 'lite-ts-crypto';
 import { Mock, mockAny } from 'lite-ts-mock';
 import supertest from 'supertest';
 
 import { IApi } from './i-api';
-import { ICrypto } from './i-crypto';
 import { ILogFactory, ILog } from './i-log-factory';
-import { bodyParserJsonExpressOption } from './json-express-option';
-import { expressPostOption as self } from './post-option';
+import { bodyParserJsonExpressOption } from './body-parser-json-option';
+import { postExpressOption as self } from './post-option';
 
-describe('src/service/express/post-option.ts', () => {
+describe('src/post-option.ts', () => {
     it('ok', async () => {
         const mockApi = new Mock<IApi>({
             initSession: () => { }
         });
-        const mockCrypto = new Mock<ICrypto>();
+        const mockCrypto = new Mock<CryptoBase>();
         const mockLogFactory = new Mock<ILogFactory>();
         const app = express();
 

@@ -3,9 +3,9 @@ import bent from 'bent';
 import express from 'express';
 import { Server } from 'http';
 
-import { expressPortOption as self } from './port-option';
+import { portExpressOption as self } from './port-option';
 
-describe('src/service/express/port-option.ts', () => {
+describe('src/port-option.ts', () => {
     it('ok', async () => {
         const app = express();
         app.get('/', (_: any, resp: any) => {

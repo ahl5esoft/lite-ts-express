@@ -1,8 +1,9 @@
 import cors from 'cors';
-import { Express } from 'express';
 
-export function corsExpressOption(option: cors.CorsOptions) {
-    return (app: Express) => {
+import { ExpressOption } from './option';
+
+export function corsExpressOption(option: cors.CorsOptions): ExpressOption {
+    return app => {
         app.use(
             cors(option)
         );

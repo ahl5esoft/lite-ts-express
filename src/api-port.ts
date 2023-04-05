@@ -10,7 +10,8 @@ export class ExpressApiPort implements IApiPort {
 
     public async listen() {
         const app = express();
-        for (let r of this.m_Options)
+        for (let r of this.m_Options) {
             r(app);
+        }
     }
 }

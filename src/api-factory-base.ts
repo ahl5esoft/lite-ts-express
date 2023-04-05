@@ -9,5 +9,5 @@ export abstract class ApiFactoryBase {
      *  // res = IApi实例, src/api/endpoint/api.ts
      * ```
      */
-    public abstract build(endpoint: string, apiName: string): IApi;
+    public abstract build(endpoint: string, apiName: string): Promise<IApi>;
 }
