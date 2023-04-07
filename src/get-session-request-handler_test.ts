@@ -44,17 +44,17 @@ describe('src/get-session-request-handler.ts', () => {
         it('ok', async () => {
             const mockCrypto = new Mock<CryptoBase>();
             const mockRpc = new Mock<RpcBase>();
-            const self = new Self(mockCrypto.actual, mockRpc.actual, {
-                b: 'route'
+            const self = new Self(mockCrypto.actual, mockRpc.actual, undefined, {
+                b: 'body-field'
             });
 
             mockRpc.expectReturn(
                 r => r.call({
                     body: {
-                        token: 'token',
+                        'body-field': 'token',
                     },
                     isThrow: true,
-                    route: 'route'
+                    route: '/account/get-session-data'
                 }),
                 {
                     data: {
@@ -86,7 +86,7 @@ describe('src/get-session-request-handler.ts', () => {
             mockHandler.expected.handle(ctx);
 
             await self.handle(ctx);
-
+            strictEqual(ctx.err, undefined);
             deepStrictEqual(ctx.req.headers, {
                 [Header.authData]: 'ciper'
             });

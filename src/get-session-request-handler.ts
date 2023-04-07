@@ -10,7 +10,11 @@ export class ExpressGetSessionRequestHandler extends ExpressRequestHandlerBase {
     public constructor(
         private m_Crypto: CryptoBase,
         private m_Rpc: RpcBase,
-        private m_Route: { [endpoint: string]: string },
+        private m_Route: string = '/account/get-session-data',
+        private m_BodyField: { [key: string]: string } = {
+            bg: 'adminToken',
+            mh: 'userToken'
+        },
     ) {
         super();
     }
@@ -25,15 +29,16 @@ export class ExpressGetSessionRequestHandler extends ExpressRequestHandlerBase {
                 return;
 
             const endpoint = ctx.req.path.split('/')[2];
-            if (!this.m_Route[endpoint])
-                throw new CustomError(ErrorCode.warning, `缺少认证路由: ${endpoint}`);
+            const bodyField = this.m_BodyField[endpoint];
+            if (!bodyField)
+                throw new CustomError(ErrorCode.warning, `缺少认证参数: ${endpoint}`);
 
             const resp = await this.m_Rpc.call<SessionData>({
                 body: {
-                    token
+                    [bodyField]: token
                 },
                 isThrow: true,
-                route: this.m_Route[endpoint],
+                route: this.m_Route,
             });
             ctx.req.headers[Header.authData] = await this.m_Crypto.encrypt(
                 JSON.stringify(resp.data)

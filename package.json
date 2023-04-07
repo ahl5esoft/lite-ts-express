@@ -50,5 +50,5 @@
     "test": "mocha -t 30s -r ./node_modules/ts-node/register/index.js --exit",
     "demo": "ts-node demo/index.ts"
   },
-  "version": "1.5.1"
+  "version": "1.6.1"
 }
