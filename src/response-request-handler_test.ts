@@ -1,9 +1,9 @@
 import { deepStrictEqual } from 'assert';
 import { CustomError } from 'lite-ts-error';
 
-import { ExpressJsonResponseRequestHandler as Self } from './json-response-request-handler';
+import { ExpressResponseRequestHandler as Self } from './response-request-handler';
 
-describe('src/json-response-request-handler.ts', () => {
+describe('src/response-request-handler.ts', () => {
     describe('.handle(ctx: RequestHandlerContext)', () => {
         it('err', async () => {
             const self = new Self();

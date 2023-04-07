@@ -13,7 +13,7 @@ export * from './port-option';
 export * from './post-option';
 export * from './request-handler-base';
 export * from './request-handler-context';
-export * from './json-response-request-handler';
+export * from './response-request-handler';
 export * from './route-option';
 export * from './session-data';
 export * from './set-session-request-handler';
