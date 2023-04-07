@@ -11,7 +11,14 @@ export function routeExpressOption(
 ): ExpressOption {
     return app => {
         app[method](routeRule, async (req: Request, resp: Response) => {
-            const ctx: RequestHandlerContext = { req, resp };
+            const ctx: RequestHandlerContext = {
+                apiResp: {
+                    data: null,
+                    err: 0,
+                },
+                req,
+                resp,
+            };
             for (const r of handlers) {
                 await r.handle(ctx);
             }

@@ -1,3 +1,5 @@
+import { SessionData } from './session-data';
+
 export interface IApiSession {
-    initSession(req: any): Promise<void>;
+    initSession(data: SessionData): Promise<void>;
 }
