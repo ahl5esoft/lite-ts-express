@@ -64,6 +64,29 @@ describe('src/set-session-request-handler.ts', () => {
             strictEqual(ctx.err, Self.errAuth);
         });
 
+        it('session is optional', async () => {
+            const mockCrypto = new Mock<CryptoBase>();
+            const self = new Self(mockCrypto.actual);
+
+            const mockHandler = new Mock<ExpressRequestHandlerBase>();
+            self.setNext(mockHandler.actual);
+
+            const ctx = {
+                api: {
+                    isOptionalSession: true,
+                    initSession: 1
+                },
+                req: {
+                    get: () => { }
+                }
+            } as any;
+            mockHandler.expected.handle(ctx);
+
+            await self.handle(ctx);
+
+            strictEqual(ctx.err, undefined);
+        });
+
         it('not api session', async () => {
             const self = new Self(null);
 
