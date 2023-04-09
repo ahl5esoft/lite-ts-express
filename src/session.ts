@@ -13,7 +13,7 @@ export class ExpressSession implements ISession {
     }
 }
 
-export class ExperssOptionalSession extends ExpressSession {
+export class ExpressOptionalSession extends ExpressSession {
     public get isOptionalSession() {
         return true;
     }
