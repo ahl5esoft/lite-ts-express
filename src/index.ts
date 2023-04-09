@@ -5,6 +5,7 @@ export * from './body-parser-option';
 export * from './call-api-request-handler';
 export * from './cors-option';
 export * from './get-api-request-handler';
+export * from './get-session-request-handler';
 export * from './i-api';
 export * from './i-api-port';
 export * from './i-session';
