@@ -6,7 +6,7 @@ import { ISession } from './i-session';
 import { ExpressRequestHandlerBase } from './request-handler-base';
 import { RequestHandlerContext } from './request-handler-context';
 
-export class ExperssSetSessionRequestHandler extends ExpressRequestHandlerBase {
+export class ExpressSetSessionRequestHandler extends ExpressRequestHandlerBase {
     public static errAuth = new CustomError(ErrorCode.auth);
 
     public constructor(
@@ -31,7 +31,7 @@ export class ExperssSetSessionRequestHandler extends ExpressRequestHandlerBase {
                     JSON.parse(plaintext)
                 );
             } else if (!session.isOptionalSession) {
-                throw ExperssSetSessionRequestHandler.errAuth;
+                throw ExpressSetSessionRequestHandler.errAuth;
             }
         } catch (ex) {
             ctx.err = ex;

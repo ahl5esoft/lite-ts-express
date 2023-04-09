@@ -4,7 +4,7 @@ import { Mock } from 'lite-ts-mock';
 import { Header } from 'lite-ts-rpc';
 
 import { ExpressRequestHandlerBase } from './request-handler-base';
-import { ExperssSetSessionRequestHandler as Self } from './set-session-request-handler';
+import { ExpressSetSessionRequestHandler as Self } from './set-session-request-handler';
 
 describe('src/set-session-request-handler.ts', () => {
     describe('.handle(ctx: RequestHandlerContext)', () => {
