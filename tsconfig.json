@@ -7,8 +7,7 @@
         "experimentalDecorators": true,
         "lib": [
             "dom",
-            "es6",
-            "es2018",
+            "ESNext"
         ],
         "module": "commonjs",
         "moduleResolution": "node",

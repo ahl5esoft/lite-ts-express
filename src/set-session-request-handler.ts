@@ -24,7 +24,7 @@ export class ExpressSetSessionRequestHandler extends ExpressRequestHandlerBase {
             if (!session?.initSession)
                 return;
 
-            const ciperText = ctx.req.get(Header.authData);
+            const ciperText = ctx.req.get(Header.authData) ?? ctx.req.headers[Header.authData] as string;
             if (ciperText) {
                 const plaintext = await this.m_Crypto.decrypt(ciperText);
                 await session.initSession(
