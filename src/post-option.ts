@@ -12,12 +12,13 @@ export function postExpressOption(
     authCrypto: CryptoBase,
     displayError: boolean,
 ) {
-    return routeExpressOption(
-        'post',
-        '/:endpoint/:api',
-        new ExpressGetApiRequestHandler(apiFactory, displayError),
+    const handler = new ExpressGetApiRequestHandler(apiFactory, displayError);
+    handler.setNext(
         new ExpressSetSessionRequestHandler(authCrypto),
+    ).setNext(
         new ExpressCallApiRequestHandler(),
+    ).setNext(
         new ExpressResponseRequestHandler(),
     );
+    return routeExpressOption('post', '/:endpoint/:api', handler);
 }

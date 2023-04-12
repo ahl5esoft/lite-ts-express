@@ -5,7 +5,7 @@ export abstract class ExpressRequestHandlerBase {
 
     public setNext(next: ExpressRequestHandlerBase) {
         this.next = next;
-        return this;
+        return this.next;
     }
 
     public abstract handle(ctx: RequestHandlerContext): Promise<void>;
