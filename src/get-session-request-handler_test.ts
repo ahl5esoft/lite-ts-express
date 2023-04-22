@@ -1,7 +1,7 @@
 import { deepStrictEqual, strictEqual } from 'assert';
 import { CryptoBase } from 'lite-ts-crypto';
 import { Mock } from 'lite-ts-mock';
-import { Header, RpcBase } from 'lite-ts-rpc';
+import { RpcHeader, RpcBase } from 'lite-ts-rpc';
 
 import { ExpressGetSessionRequestHandler as Self } from './get-session-request-handler';
 import { ExpressRequestHandlerBase } from './request-handler-base';
@@ -32,7 +32,7 @@ describe('src/get-session-request-handler.ts', () => {
                 err: new Error('err'),
                 req: {
                     get: (arg: string) => {
-                        strictEqual(arg, Header.authToken);
+                        strictEqual(arg, RpcHeader.authToken);
                     }
                 }
             } as any;
@@ -77,8 +77,8 @@ describe('src/get-session-request-handler.ts', () => {
                         return 'token';
                     },
                     headers: {
-                        [Header.authData]: '',
-                        [Header.authToken]: 'at'
+                        [RpcHeader.authData]: '',
+                        [RpcHeader.authToken]: 'at'
                     },
                     path: '/a/b/c'
                 }
@@ -88,7 +88,7 @@ describe('src/get-session-request-handler.ts', () => {
             await self.handle(ctx);
             strictEqual(ctx.err, undefined);
             deepStrictEqual(ctx.req.headers, {
-                [Header.authData]: 'ciper'
+                [RpcHeader.authData]: 'ciper'
             });
         });
     });

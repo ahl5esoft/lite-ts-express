@@ -1,6 +1,6 @@
 import { CryptoBase } from 'lite-ts-crypto';
 import { CustomError, ErrorCode } from 'lite-ts-error';
-import { Header } from 'lite-ts-rpc';
+import { RpcHeader } from 'lite-ts-rpc';
 
 import { ISession } from './i-session';
 import { ExpressRequestHandlerBase } from './request-handler-base';
@@ -24,9 +24,9 @@ export class ExpressSetSessionRequestHandler extends ExpressRequestHandlerBase {
             if (!session?.initSession)
                 return;
 
-            const ciperText = ctx.req.get(Header.authData) ?? ctx.req.headers[Header.authData] as string;
+            const ciperText = ctx.req.get(RpcHeader.authData) ?? ctx.req.headers[RpcHeader.authData];
             if (ciperText) {
-                const plaintext = await this.m_Crypto.decrypt(ciperText);
+                const plaintext = await this.m_Crypto.decrypt(ciperText as string);
                 await session.initSession(
                     JSON.parse(plaintext)
                 );

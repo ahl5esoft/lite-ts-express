@@ -1,6 +1,6 @@
 import { CryptoBase } from 'lite-ts-crypto';
 import { CustomError, ErrorCode } from 'lite-ts-error';
-import { Header, RpcBase } from 'lite-ts-rpc';
+import { RpcHeader, RpcBase } from 'lite-ts-rpc';
 
 import { ExpressRequestHandlerBase } from './request-handler-base';
 import { RequestHandlerContext } from './request-handler-context';
@@ -24,7 +24,7 @@ export class ExpressGetSessionRequestHandler extends ExpressRequestHandlerBase {
             if (ctx.err)
                 return;
 
-            const token = ctx.req.get(Header.authToken);
+            const token = ctx.req.get(RpcHeader.authToken);
             if (!token)
                 return;
 
@@ -40,10 +40,10 @@ export class ExpressGetSessionRequestHandler extends ExpressRequestHandlerBase {
                 isThrow: true,
                 route: this.m_Route,
             });
-            ctx.req.headers[Header.authData] = await this.m_Crypto.encrypt(
+            ctx.req.headers[RpcHeader.authData] = await this.m_Crypto.encrypt(
                 JSON.stringify(resp.data)
             );
-            delete ctx.req.headers[Header.authToken];
+            delete ctx.req.headers[RpcHeader.authToken];
         } catch (ex) {
             ctx.err = ex;
         } finally {
