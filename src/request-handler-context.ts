@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { opentracing } from 'jaeger-client';
 import { ILog } from 'lite-ts-log';
 import { RpcResponse } from 'lite-ts-rpc';
+import { ITracerSpan } from 'lite-ts-tracer';
 
 import { IApi } from './i-api';
 import { Route } from './route';
@@ -16,5 +16,5 @@ export type RequestHandlerContext = {
     log?: ILog;
     err?: Error;
     route?: Route;
-    tracerSpan?: opentracing.Span;
-}
+    tracerSpan?: ITracerSpan;
+};
