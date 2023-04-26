@@ -9,8 +9,6 @@ export * from './get-session-request-handler';
 export * from './i-api';
 export * from './i-api-port';
 export * from './i-session';
-export * from './init-tracer-request-handler';
-export * from './log-request-handler';
 export * from './option';
 export * from './port-option';
 export * from './post-option';
